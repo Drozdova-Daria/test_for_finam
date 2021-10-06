@@ -1,0 +1,195 @@
+/* Создание базы данных music_library*/
+CREATE DATABASE music_library;
+
+/* Таблица "Жанры" с полями
+	id_genre: порядковый номер жанра
+	name_genre: название жанра
+*/
+CREATE TABLE genres 
+(
+	id_genre SERIAL PRIMARY KEY,
+	name_genre CHARACTER VARYING(30)
+);
+
+/* Таблица "Исполнители" с полями
+	id_musican: порядковый номер исполнителя
+	name_musican: имя исполнителя
+*/
+CREATE TABLE musicans 
+(
+	id_musican SERIAL PRIMARY KEY,
+	name_musican CHARACTER VARYING(30)
+);
+
+/* Таблица "Песни" с полями
+	id_song: порядковый номер песни
+	name_song: название песни
+	duration: продолжительность
+	release_date: дата выхода
+	id_musican: id исполнителя песни (из таблицы musicans)
+*/
+CREATE TABLE songs
+(
+	id_song SERIAL PRIMARY KEY,
+	name_song CHARACTER VARYING(30),
+	duration CHARACTER VARYING(30),
+	release_date DATE,
+	id_musican INTEGER,
+	FOREIGN KEY (id_musican) REFERENCES musicans (id_musican)
+);
+
+/* Таблица для связи песни и жанра
+	id_song: id песни (из таблицы songs)
+	id_genre: id жанра (из таблицы genres)
+*/
+CREATE TABLE songs_genres
+(
+	id_song_genre SERIAL PRIMARY KEY,
+	id_song INTEGER,
+	id_genre INTEGER,
+	FOREIGN KEY (id_song) REFERENCES songs (id_song),
+	FOREIGN KEY (id_genre) REFERENCES genres (id_genre)
+);
+
+/* Добавление записей в таблицу genres */
+INSERT INTO genres (name_genre) VALUES
+	('Рок'),
+	('Поп'),
+	('Хип-хоп'),
+	('Альтернатива'),
+	('Рэп'),
+	('Инди');
+
+/* Добавление записей в таблицу musicans*/
+INSERT INTO musicans (name_musican) VALUES
+	('Fall Out Boy'),
+	('David Guetta'),
+	('Coldplay'),
+	('The Neighbourhood'),
+	('twenty one pilots'),
+	('Imagine Dragons'),
+	('Zivert'),
+	('Sia'),
+	('Dua Lipa'),
+	('Sting'),
+	('One Direction'),
+	('Сергей Лазарев'),
+	('HammAli&Navai'),
+	('Баста');
+
+/* Добавление записей в таблицу songs */
+INSERT INTO songs (name_song, duration, release_date, id_musican) VALUES
+	('The Last Of The Real Ones', '3:50', '2018-05-20', 1),
+	('Jet Pack Blues', '2:59', '2015-11-12', 1),
+	('Twin Skeletons (Hotel In NYC)', '3:40', '2015-03-23', 1),
+	('Irresistible', '3:26', '2015-05-05', 1),
+	('Say My Name', '3:19', '2018-03-14', 2),
+	('Titanium', '4:05', '2011-12-13', 2),
+	('Dangerous', '3:23', '2015-04-15', 2),
+	('Clocks', '5:09', '2003-09-08', 3),
+	('Paradise', '4:38', '2011-04-04', 3),
+	('A Sky Full Of Stars', '3:55', '2014-09-10', 3),
+	('Scary Love', '3:45', '2018-01-01', 4),
+	('Prey', '4:40', '2015-11-25', 4),
+	('Cry baby', '3:53', '2015-12-12', 4),
+	('Sweater Weather', '3:47', '2013-10-01', 4),
+	('Choker', '3:43', '2021-04-30', 5),
+	('Shy Away', '2:55', '2021-04-30', 5),
+	('No Chances', '3:46', '2021-04-30', 5),
+	('Chlorine', '5:24', '2018-05-06', 5),
+	('Bandito', '5:31', '2018-05-07', 5),
+	('Leave The City', '4:40', '2018-05-08', 5),
+	('Heathens', '3:15', '2016-12-14', 5),
+	('Hometown', '3:54', '2016-05-04', 5),
+	('Thunder', '3:07', '2017-05-02', 6),
+	('Start Over', '3:06', '2017-06-04', 6),
+	('Dream', '4:18', '2015-11-14', 6),
+	('Battle Cry', '4:33', '2014-12-16', 6),
+	('Demons', '3:01', '2012-01-04', 6),
+	('Life', '3:08', '2019-01-05', 7),
+	('Beverly Hills', '3:39', '2019-12-05', 7),
+	('Courage to Change', '4:52', '2020-03-15', 8),
+	('Unstoppable', '3:35', '2016-07-08', 8),
+	('Chandelier', '3:36', '2015-03-09', 8),
+	('Light Headed', '4:04', '2012-05-16', 8),
+	('Physical', '3:13', '2020-05-16', 9),
+	('Levitating', '3:23', '2020-06-06', 9),
+	('IDGAF', '3:28', '2017-05-09', 9),
+	('New Rules', '3:32', '2017-08-16', 9),
+	('Desert Rose', '4:47', '2011-11-19', 10),
+	('Mad About You', '3:36', '2001-05-16' ,10),
+	('Story of My Love', '4:05', '2013-10-16', 11),
+	('Лови', '3:29', '2019-12-17', 12),
+	('Снег в океане', '3:49', '2019-02-02', 12),
+	('Прятки', '3:13', '2019-06-13', 13),
+	('Улица', '5:05', '2017-02-13' ,14),
+	('Моя игра', '4:30', '2006-03-18', 14);
+	
+/*Добавление записей в таблицу songs_genres */
+INSERT INTO songs_genres(id_song, id_genre) VALUES
+	(1, 1),
+	(1, 2),
+	(2, 1),
+	(2, 2),
+	(3, 4),
+	(4, 4),
+	(5, 4),
+	(6, 2),
+	(7, 2),
+	(8, 2),
+	(9, 4),
+	(9, 1),
+	(10, 4),
+	(11, 4),
+	(12, 1),
+	(13, 2),
+	(14, 2),
+	(15, 4),
+	(16, 4),
+	(17, 4),
+	(18, 4),
+	(19, 4),
+	(20, 4),
+	(21, 4),
+	(22, 4),
+	(22, 3),
+	(23, 4), 
+	(24, 1),
+	(25, 1),
+	(26, 1),
+	(27, 1),
+	(28, 1),
+	(29, 2),
+	(30, 2),
+	(31, 2),
+	(32, 4),
+	(33, 4),
+	(34, 2),
+	(35, 2),
+	(36, 2),
+	(37, 2),
+	(38, 2),
+	(39, 1),
+	(40, 1),
+	(41, 2),
+	(42, 2),
+	(43, 2),
+	(44, 5),
+	(45, 5),
+	(46, 5);
+
+/* Запрос: Вывести 10 самых новых песен в жанре Рок. В выводе должны быть колонки: Название песни, Название исполнителя, Длительность, Дата выхода */
+SELECT songs.name_song, musicans.name_musican, songs.duration, songs.release_date, songs.id_song
+FROM songs_genres, songs, musicans, genres
+WHERE songs_genres.id_genre = (SELECT id_genre FROM genres WHERE name_genre = 'Рок') AND
+	  songs_genres.id_song = songs.id_song AND
+	  songs.id_musican = musicans.id_musican AND
+	  songs_genres.id_genre = genres.id_genre
+ORDER BY DATE(songs.release_date) DESC LIMIT 10;
+
+/* Запрос: Вывести 5 исполнителей, которые выпустили больше всего песен. Выводе должно быть: Название исполнителя, сколько песен выпустил */
+SELECT musicans.name_musican, COUNT(songs.id_musican)
+FROM songs, musicans
+WHERE musicans.id_musican = songs.id_musican
+GROUP BY musicans.name_musican, songs.id_musican
+ORDER BY COUNT(songs.id_musican) DESC LIMIT 5;
